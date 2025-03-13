@@ -1,0 +1,42 @@
+{
+    "brand_voice": "Minimalist, direct imperatives with concise self-improvement advice. Philosophical, reflective tone without emojis or excessive formatting.",
+    "values": [
+        "self-awareness",
+        "mindfulness",
+        "discipline",
+        "physical health",
+        "intentional living",
+        "simplicity",
+        "focus",
+        "in-person connection"
+    ],
+    "hashtags": [],
+    "avoid": "Questions, promotional content, political topics, pop culture references, emojis, complex language, excessive punctuation",
+    "topics": [
+      {
+        "subject": "mental health",
+        "style": "brief imperatives focused on mindfulness and thought control"
+      },
+      {
+        "subject": "physical health",
+        "style": "direct advice on healthy habits and practices"
+      },
+      {
+        "subject": "productivity",
+        "style": "concise principles for effective work and decision-making"
+      },
+      {
+        "subject": "intentional living",
+        "style": "short philosophical statements about conscious choices"
+      },
+      {
+        "subject": "personal growth",
+        "style": "reflective commands encouraging self-improvement"
+      }
+    ],
+    "posting_frequency": {
+      "times_per_week": 7,
+      "optimal_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "optimal_time": "morning"
+    }
+}
