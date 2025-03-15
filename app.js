@@ -135,24 +135,56 @@ document.addEventListener('DOMContentLoaded', () => {
             processingStatus.textContent = "Preparing to upload...";
             updateProgressBar(10);
             
-            // Convert audio to base64 for GitHub API
-            const base64Audio = await fileToBase64(audioFile);
+            // Create form data for upload
+            const formData = new FormData();
+            formData.append('audio', audioFile);
+            
             processingStatus.textContent = "Uploading audio...";
             updateProgressBar(30);
             
-            // Upload via GitHub API (requires authentication)
-            await uploadAudioToGitHub(base64Audio, audioFile.name);
+            // Upload to Vercel API endpoint
+            const response = await fetch('/api/process_audio', {
+                method: 'POST',
+                body: formData,
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Server responded with ${response.status}: ${await response.text()}`);
+            }
+            
+            const data = await response.json();
             
             // Update status
-            processingStatus.textContent = "Audio uploaded successfully. Tweet generation in progress...";
+            processingStatus.textContent = "Audio processed successfully. Tweets are being posted...";
             updateProgressBar(70);
             
-            // Simulated delay (in real implementation, would poll for status)
-            setTimeout(() => {
-                processingStatus.textContent = "Tweets have been generated and scheduled for posting!";
-                updateProgressBar(100);
+            // Poll for status
+            const statusCheckInterval = setInterval(async () => {
+                const statusResponse = await fetch(`/api/status?id=${data.jobId}`);
+                const statusData = await statusResponse.json();
                 
-                // Could redirect to a status page or show tweet previews here
+                if (statusData.status === 'completed') {
+                    clearInterval(statusCheckInterval);
+                    processingStatus.textContent = `${statusData.tweets.length} tweets have been posted!`;
+                    updateProgressBar(100);
+                    
+                    // Display the tweets
+                    const tweetsList = document.createElement('div');
+                    tweetsList.className = 'tweets-list';
+                    
+                    statusData.tweets.forEach(tweet => {
+                        const tweetElement = document.createElement('div');
+                        tweetElement.className = 'tweet';
+                        tweetElement.textContent = tweet.text;
+                        tweetsList.appendChild(tweetElement);
+                    });
+                    
+                    statusContainer.appendChild(tweetsList);
+                } else if (statusData.status === 'failed') {
+                    clearInterval(statusCheckInterval);
+                    processingStatus.textContent = `Error: ${statusData.error}`;
+                    updateProgressBar(0);
+                }
             }, 3000);
             
         } catch (error) {
@@ -182,57 +214,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateProgressBar(percentage) {
         progressBar.style.width = `${percentage}%`;
-    }
-
-    function fileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                // Extract the base64 data from the result
-                const base64Data = reader.result.split(',')[1];
-                resolve(base64Data);
-            };
-            reader.onerror = error => reject(error);
-        });
-    }
-
-    // In a real implementation, this would use GitHub API with proper authentication
-    // This is a simplified version to demonstrate the concept
-    async function uploadAudioToGitHub(base64Content, filename) {
-        // In the actual implementation, this would use GitHub's API to create a commit
-        // For now, we'll simulate success after a delay
-        return new Promise(resolve => {
-            setTimeout(() => {
-                console.log(`Simulated upload of ${filename} to GitHub`);
-                resolve({ success: true });
-            }, 1500);
-        });
-        
-        /* 
-        // Example of actual implementation using GitHub API (commented out)
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const path = `audio/${timestamp}-${filename}`;
-        
-        const response = await fetch('https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/contents/' + path, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${YOUR_GITHUB_TOKEN}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: `Add audio file: ${filename}`,
-                content: base64Content,
-                branch: 'main'
-            })
-        });
-        
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Failed to upload to GitHub');
-        }
-        
-        return response.json();
-        */
     }
 });
