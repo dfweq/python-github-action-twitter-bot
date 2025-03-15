@@ -2,7 +2,7 @@ name: Speech-to-Tweet Processor
 on:
   push:
     branches:
-      - main
+      - speech-to-tweet
     paths:
       - 'audio/**'
   workflow_dispatch:

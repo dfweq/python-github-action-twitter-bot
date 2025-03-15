@@ -3,7 +3,7 @@ name: GitHub Pages Deployment
 on:
   push:
     branches:
-      - main
+      - speech-to-tweet
     paths:
       - 'index.html'
       - 'styles.css'
