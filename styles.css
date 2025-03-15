@@ -1,0 +1,195 @@
+:root {
+    --primary-color: #1DA1F2;
+    --danger-color: #E0245E;
+    --success-color: #17BF63;
+    --bg-color: #F5F8FA;
+    --text-color: #14171A;
+    --card-bg: #FFFFFF;
+    --border-color: #E1E8ED;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.recording-container {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.timer {
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 10px 0 20px;
+    font-weight: bold;
+}
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.or-divider span {
+    padding: 0 10px;
+    color: #657786;
+    font-weight: bold;
+}
+
+.file-input-label {
+    display: block;
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.file-input {
+    display: none;
+}
+
+#fileName {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    min-height: 20px;
+}
+
+#audioPreview {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+#audioPreview h3 {
+    margin-bottom: 10px;
+}
+
+#audioPlayer {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.status-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background-color: var(--border-color);
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: var(--primary-color);
+    transition: width 0.5s;
+}
+
+#processingStatus {
+    margin: 10px 0;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #657786;
+    font-size: 0.9rem;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Media queries for mobile */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .btn {
+        padding: 14px 20px;
+    }
+}
